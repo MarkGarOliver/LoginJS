@@ -8,6 +8,17 @@ let botaoLogin = document.getElementById('botao-login')
 let uservalido = ''
 let senhavalida = ''
 
+
+//banco de dados localstorage
+
+
+
+const getBanco = () => JSON.parse(localStorage.getItem('db_users')) ?? []
+//const setBanco = (banco) => localStorage.setItem('db_users', JSON.stringify(banco))
+
+
+
+//funções
 const usuarioErrado = () => {
     if(usuario.value.length <= 4){
         usuario.setAttribute("style", "border-bottom: solid red 1px;")
@@ -44,15 +55,37 @@ const clickBotao = (evento) =>{
     }
 }
 
-const logar = () =>{
-    if(uservalido == true && senhavalida == true){
-        console.log('usuario e senha ok')
-        alert('logado !!')
-    }else{
-        console.log('usuario ou senha errado')
-        alert('usuario ou senha errado')
+//fazer:
+//verificar se existe esse usuário no localstorage.
+//se existir validar se nome e senha batem para logar.
+
+function logar () {
+   
+    let banco = getBanco() 
+    let listaUsers = []
+    listaUsers.push(banco)
+
+    listaUsers.push({
+        nome: 'jessica',
+        senha: '220756E'
+    })
+    
+    let usuarioValido = {
+        user: '',
+        pass: ''
     }
 
+    listaUsers.forEach((item) =>{
+        if(usuario.value == item.nome && senha.value == item.senha){
+            usuarioValido = {
+                user: item.nome,
+                pass: item.senha
+            }
+        }
+
+        
+    })
+    console.log(usuarioValido)
 }
 
 usuario.addEventListener('keyup', usuarioErrado)
