@@ -4,6 +4,7 @@ let usuario = document.getElementById('nome')
 let senha = document.getElementById('senha')
 let divForm = document.getElementById('form')
 let botaoLogin = document.getElementById('botao-login')
+let msg = document.getElementById('msg')
 
 let uservalido = ''
 let senhavalida = ''
@@ -81,11 +82,20 @@ function logar () {
                 user: item.nome,
                 pass: item.senha
             }
+            
         }
 
         
     })
     console.log(usuarioValido)
+
+    if(usuario.value == usuarioValido.user && senha.value == usuarioValido.pass){
+        alert('deu bom')
+    }else{
+        msg.setAttribute('style', 'display: block')
+        msg.innerHTML = '<p>Usuario ou senha incorretos</p>'
+    }
+
 }
 
 usuario.addEventListener('keyup', usuarioErrado)
