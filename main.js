@@ -91,7 +91,15 @@ function logar () {
         //apenas para testes console.log(usuarioValido)
 
         if(usuario.value == usuarioValido.user && senha.value == usuarioValido.pass){
-            console.log('logouuuu')
+
+
+            window.location.href = "http://127.0.0.1:5500/logado/index.html"
+
+            let token_user = Math.random().toString(16).substring(2) +  Math.random().toString(16).substring(2)
+
+            localStorage.setItem('token', token_user)
+            localStorage.setItem('usuarioLogado', JSON.stringify(usuarioValido))
+        
             
         }else{
             msg.setAttribute('style', 'display: block')
