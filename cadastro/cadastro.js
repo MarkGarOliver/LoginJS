@@ -8,25 +8,26 @@ var confirmSenha = document.getElementById('confirmSenha')
 var botaoCadastrar = document.getElementById('botaoCad')
 var msg = document.getElementById('msg')
 
+//variaveis usadas para validar as informações inseridas
 
 var nomeValido = null
 var emailValido = null
 var senhaValida = null
 
 
-
+//funções para buscar os dados dentro do localstorage e outra para inserir
 const getBanco = () => JSON.parse(localStorage.getItem('db_users')) ?? []
 const setBanco = (dados) => localStorage.setItem('db_users', JSON.stringify(dados))
 
 
-//verifica se usuario já existe.
+//verifica se usuario já existe no localstorage
 const verificaUsername = () => {
     var listaUser = getBanco()
     if(listaUser.length == 0){
         nomeValido = true
     }else{
         listaUser.forEach((elemento) =>{
-            if(nome.value == elemento.nome){
+            if(nome.value == elemento.nome){ //se existir a variavel de validação recebe null e nao permite a criação de um usuario com o mesmo nome
                 nomeValido = false
             }else{
                 nomeValido = true
@@ -35,6 +36,7 @@ const verificaUsername = () => {
     } 
 }
 
+//verifica se já existe determinado email cadastrado no localstorage
 const verificaEmail = () => {
     var listaUser = getBanco()
     listaUser.forEach(elemento => {
@@ -48,10 +50,11 @@ const verificaEmail = () => {
     });
 }
 
+//verifica se a senha é valida = maior que 8 caracteres e se as senhas sao iguais
 const verificaSenhasIguais = () => {
 
-    var strsenha = `${senha.value}`
-    var tamsenha = strsenha.length
+    var strsenha = `${senha.value}` //converti a senha para string 
+    var tamsenha = strsenha.length //precisei fazer dessa forma para conseguir o tamanho da senha
 
     
 
@@ -65,7 +68,7 @@ const verificaSenhasIguais = () => {
 
             senhaValida == false
         }
-        //mudar style de senha e confirmar senha para verdinho       
+        //mudar style de senha e confirmar senha para verdinho =--- fazer 
     }else{
         
         msg.innerHTML = '<p>As senhas não são iguais<p/>'
@@ -76,6 +79,18 @@ const verificaSenhasIguais = () => {
 
 
 
+/*
+
+ação do botão cadastrar, aqui valido cada informação de acordo com uma prioridade
+sendo ela: 
+
+1º Validar Nome
+2º Validar E-mail
+3º Validar Senha
+
+após a validação da senha aprovada, é feita a inserção no localstorage do novo usuário
+
+*/
 
 const cadastrar = () => {
     verificaUsername()
@@ -99,81 +114,28 @@ const cadastrar = () => {
                 
                 var listaUsers = getBanco()
     
-
+                
                 nome = nome.value
                 email = email.value
                 senha = senha.value
-                confirmSenha = confirmSenha.value
-
+                
+                //crio um array com os dados do novo usuario
                 const banco = {
                     nome: `${nome}`,
                     senha: `${senha}`,
                     email: `${email}`
                 }
-
+                
+                //insiro esses dados ao array que peguei do localstorage
                 listaUsers.push(banco)
 
+                //envio o array/json para o localstorage novamente
                 setBanco(listaUsers)
-
-                console.log(banco)
-
-                // deixar no fim da função, para limpar as mensagens de erro | msg.setAttribute('style', 'display: none')
-                window.location.href = "http://127.0.0.1:5500/cadastro/index.html"
-
-                
-
-
-
-
-
-
-
-
-                
-
 
             }
         }
     }
         
     }
- /*
-    var listaUsers = getBanco()
-    
-
-    nome = nome.value
-    email = email.value
-    senha = senha.value
-    confirmSenha = confirmSenha.value
-
-    const banco = {
-        nome: `${nome}`,
-        senha: `${senha}`,
-        email: `${email}`
-    }
-
-    listaUsers.push(banco)
-
-    setBanco(listaUsers)
-
-    console.log(banco)
-
-    // deixar no fim da função, para limpar as mensagens de erro | msg.setAttribute('style', 'display: none')
-    window.location.href = "http://127.0.0.1:5500/cadastro/index.html"
-
-    */
-
-
 
 botaoCadastrar.addEventListener('click', cadastrar)
-
-
-/*
-
-prioridades de problemas = 
-
-1º usuario nao valido? msg == usuario ja existe
-2º email nao valido? msg == email nao valido / ja cadastrado
-3º validação da senha? msg =senha ...
-
-*/
