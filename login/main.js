@@ -71,17 +71,15 @@ function logar () {
 
     if(uservalido == true && senhavalida == true){
 
+        var dados = getBanco()
 
-        let banco = getBanco() 
-        let listaUsers = []
-        listaUsers.push(banco)
-        
         let usuarioValido = {
-            user: '',
-            pass: ''
+            nome: '',
+            senha: ''
         }
 
-        listaUsers.forEach((item) =>{
+        dados.forEach((item) =>{
+            
             if(usuario.value == item.nome && senha.value == item.senha){
                 usuarioValido = {
                     user: item.nome,
@@ -90,6 +88,7 @@ function logar () {
                 
             }
 
+            console.log (usuarioValido)
             
         })
         //apenas para testes console.log(usuarioValido)
