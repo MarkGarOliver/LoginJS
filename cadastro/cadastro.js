@@ -11,6 +11,8 @@ var msg = document.getElementById('msg')
 var divForm = document.getElementById('form')
 
 
+
+
 //variaveis usadas para validar as informações inseridas
 
 var nomeValido = null
@@ -27,7 +29,12 @@ const setBanco = (dados) => localStorage.setItem('db_users', JSON.stringify(dado
 //============================================VALIDAR USUARIO===============================================//
 
 const leightNome = () => {
-    if(nome.value.length <= 4){
+
+    //abaixo uso o trim() para remover qualquer espaço desnecessário no nome de usuário
+    var nomeSemEspaco = `${nome.value}`
+    nomeSemEspaco.trim()
+
+    if(nomeSemEspaco.length <= 4){
         nome.setAttribute("style", "border-bottom: solid red 1px;")
         divForm.setAttribute("style", "box-shadow: 0 0 5px 0 red, 0 2px 2px 0 rgba(0, 0, 0, 0.24);")
     } else{
@@ -103,18 +110,27 @@ const msgEmailError = () => {
 //verifica se já existe determinado email cadastrado no localstorage
 const verificaEmail = () => {
 
-    
+    console.log('verificando email')
 
     var listaUser = getBanco()
-    listaUser.forEach(elemento => {
-        if(email.value == elemento.email){
-            emailValido = false
-            msg.innerHTML = '<p>Email já cadastrado<p/>'
-            msg.setAttribute('style', 'display: block')
-        }else {
-            emailValido = true
-        }
-    });
+    console.log(listaUser.length)
+
+    if(listaUser.length == 0){
+        emailValido = true
+        console.log('estava vazio')
+    }else{
+        listaUser.forEach(elemento => {
+            if(email.value == elemento.email){
+                emailValido = false
+                msg.innerHTML = '<p>Email já cadastrado<p/>'
+                msg.setAttribute('style', 'display: block')
+            }else if(email.value !== elemento.email) {
+                emailValido = true
+            }
+        });
+    }
+
+ 
 }
 
 //verifica se a senha é valida = maior que 8 caracteres e se as senhas sao iguais
@@ -123,6 +139,7 @@ const verificaSenhasIguais = () => {
     console.log('validando senha')
 
     var strsenha = `${senha.value}` //converti a senha para string 
+    strsenha = strsenha.trim()      //removendo os espaços desnecessários
     var tamsenha = strsenha.length //precisei fazer dessa forma para conseguir o tamanho da senha
 
     
@@ -146,7 +163,11 @@ const verificaSenhasIguais = () => {
     }
 }
 
-
+const EnterCadastrar = (evento) => {
+    if(evento.key == 'Enter'){
+        botaoCadastrar.click()
+    }
+}
 
 /*
 
@@ -162,58 +183,66 @@ após a validação da senha aprovada, é feita a inserção no localstorage do 
 */
 
 const cadastrar = () => {
-    verificaUsername()
-    if(nomeValido == false){
-        msg.innerHTML = '<p>Este nome de usuário não está disponível<p/>'
-        msg.setAttribute('style', 'display: block')
-    }else{
-        //usuario é valido
-        console.log('usuario valido')
-        verificaEmail()
-        msgEmailError()
-        if(emailValido == false){
+    msg.setAttribute('style', 'display: none')
+
+    if(email.value !== '' && nome.value !== '' && senha.value !== ''){
+        verificaUsername()
+        if(nomeValido == false){
+            msg.innerHTML = '<p>Este nome de usuário não está disponível<p/>'
             msg.setAttribute('style', 'display: block')
-        }else if(emailValido == true && emailValido2 == true){
-            //email valido
-            console.log('email valido')
-            verificaSenhasIguais()
-            if(senhaValida == false){
-                msg.setAttribute('style', 'display: block') 
-            }else if(senhaValida == true){
-                console.log('senha valida')
-                
-                var listaUsers = getBanco()
-    
-                
-                nome = nome.value
-                email = email.value
-                senha = senha.value
-                
-                //crio um array com os dados do novo usuario
-                const banco = {
-                    nome: `${nome}`,
-                    senha: `${senha}`,
-                    email: `${email}`
-                }
-                
-                //insiro esses dados ao array que peguei do localstorage
-                listaUsers.push(banco)
-
-                //envio o array/json para o localstorage novamente
-                setBanco(listaUsers)
-
-                window.location.href = "http://127.0.0.1:5500/login"
-
-
-            }   
-        }
-    }
+        }else{
+            //usuario é valido
+            console.log('usuario valido')
+            verificaEmail()
+            msgEmailError()
+            if(emailValido == false){
+                msg.setAttribute('style', 'display: block')
+            }else if(emailValido == true && emailValido2 == true){
+                //email valido
+                console.log('email valido')
+                verificaSenhasIguais()
+                if(senhaValida == false){
+                    msg.setAttribute('style', 'display: block') 
+                }else if(senhaValida == true){
+                    console.log('senha valida')
+                    
+                    var listaUsers = getBanco()
         
+                    
+                    nome = nome.value
+                    email = email.value
+                    senha = senha.value
+                    
+                    //crio um array com os dados do novo usuario
+                    const banco = {
+                        nome: `${nome}`,
+                        senha: `${senha}`,
+                        email: `${email}`
+                    }
+                    
+                    //insiro esses dados ao array que peguei do localstorage
+                    listaUsers.push(banco)
+    
+                    //envio o array/json para o localstorage novamente
+                    setBanco(listaUsers)
+    
+                    window.location.href = "http://127.0.0.1:5500/login"
+    
+    
+                }   
+            }
+        }
+
+    }else{
+        msg.innerHTML = '<p>Preencha todos os campos corretamente<p/>'
+        msg.setAttribute('style', 'display: block')
     }
+}
 
 
 
 botaoCadastrar.addEventListener('click', cadastrar)
+confirmSenha.addEventListener('keypress', EnterCadastrar)
 
 nome.addEventListener('keyup', leightNome)
 email.addEventListener('keyup', validaEmail)
