@@ -36,10 +36,10 @@ const leightNome = () => {
 
     if(nomeSemEspaco.length <= 4){
         nome.setAttribute("style", "border-bottom: solid red 2px;")
-        divForm.setAttribute("style", "box-shadow: 0 0 5px 0 red, 0 2px 2px 0 rgba(0, 0, 0, 0.24);")
+        divForm.setAttribute("style", "border:solid red 1px;")
     } else{
         nome.setAttribute("style", "border-bottom: solid #00d9ff 2px;")
-        divForm.setAttribute("style", "box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);")
+        divForm.setAttribute("style", "border:solid #00d9ff 1px;")
     }
 }
 
@@ -83,7 +83,7 @@ const validaEmail = () => {
 
         
         email.setAttribute("style", "border-bottom: solid #00d9ff 2px;")
-        divForm.setAttribute("style", "box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);")
+        divForm.setAttribute("style", "border:solid #00d9ff 1px;")
 
         emailValido2 = true
         
@@ -91,7 +91,7 @@ const validaEmail = () => {
         console.log('email nao valido')
 
         email.setAttribute("style", "border-bottom: solid red 2px;")
-        divForm.setAttribute("style", "box-shadow: 0 0 5px 0 red, 0 2px 2px 0 rgba(0, 0, 0, 0.24);")
+        divForm.setAttribute("style", "border:solid red 1px;")
 
         emailValido2 = false
     }
@@ -133,6 +133,8 @@ const verificaEmail = () => {
  
 }
 
+//================================================Validação das Senhas=================================================\\
+
 //verifica se a senha é valida = maior que 8 caracteres e se as senhas sao iguais
 const verificaSenhasIguais = () => {
 
@@ -148,6 +150,7 @@ const verificaSenhasIguais = () => {
         
         if(tamsenha >= 8){
             senhaValida = true
+
         }else{
             msg.innerHTML = '<p>senha muito pequena<p/>'
             msg.setAttribute('style', 'display: block')
@@ -162,6 +165,37 @@ const verificaSenhasIguais = () => {
         senhaValida = false
     }
 }
+
+const leightSenha = (event) => {
+    var tamSenha = `${senha.value}`
+
+    tamSenha = tamSenha.length
+
+    //campo senha tamanho maior que 8
+
+    if(tamSenha >= 8){
+        senha.setAttribute("style", "border-bottom: solid #00d9ff 2px;")
+        divForm.setAttribute("style", "border:solid #00d9ff 1px;")   
+    }else{
+        senha.setAttribute("style", "border-bottom: solid red 2px;")
+        divForm.setAttribute("style", "border:solid red 1px;")
+    }
+
+    if(event.path[0].id == 'confirmSenha'){
+        if(senha.value == confirmSenha.value){
+            confirmSenha.setAttribute("style", "border-bottom: solid #00d9ff 2px;")
+            divForm.setAttribute("style", "border:solid #00d9ff 1px;")   
+        }else{
+            confirmSenha.setAttribute("style", "border-bottom: solid red 2px;")
+            divForm.setAttribute("style", "border:solid red 1px;")
+        }
+    }
+
+
+}
+
+//==================================================================================================================\\
+
 
 const EnterCadastrar = (evento) => {
     if(evento.key == 'Enter'){
@@ -226,8 +260,12 @@ const cadastrar = () => {
                     //envio o array/json para o localstorage novamente
                     setBanco(listaUsers)
     
-                    window.location.href = "http://127.0.0.1:5500/login"
-    
+                    window.location.href = 'https://127.0.0.1:5500/login'
+                    
+                    /*
+                    
+                    */
+
     
                 }   
             }
@@ -242,7 +280,12 @@ const cadastrar = () => {
 
 
 botaoCadastrar.addEventListener('click', cadastrar)
+
 confirmSenha.addEventListener('keypress', EnterCadastrar)
+
 
 nome.addEventListener('keyup', leightNome)
 email.addEventListener('keyup', validaEmail)
+senha.addEventListener('keyup', leightSenha)
+confirmSenha.addEventListener('keyup', leightSenha)
+
