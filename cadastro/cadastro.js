@@ -35,10 +35,10 @@ const leightNome = () => {
     nomeSemEspaco.trim()
 
     if(nomeSemEspaco.length <= 4){
-        nome.setAttribute("style", "border-bottom: solid red 1px;")
+        nome.setAttribute("style", "border-bottom: solid red 2px;")
         divForm.setAttribute("style", "box-shadow: 0 0 5px 0 red, 0 2px 2px 0 rgba(0, 0, 0, 0.24);")
     } else{
-        nome.setAttribute("style", "border-bottom: solid green 1px;")
+        nome.setAttribute("style", "border-bottom: solid #00d9ff 2px;")
         divForm.setAttribute("style", "box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);")
     }
 }
@@ -82,7 +82,7 @@ const validaEmail = () => {
 
 
         
-        email.setAttribute("style", "border-bottom: solid green 1px;")
+        email.setAttribute("style", "border-bottom: solid #00d9ff 2px;")
         divForm.setAttribute("style", "box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);")
 
         emailValido2 = true
@@ -90,7 +90,7 @@ const validaEmail = () => {
     }else{
         console.log('email nao valido')
 
-        email.setAttribute("style", "border-bottom: solid red 1px;")
+        email.setAttribute("style", "border-bottom: solid red 2px;")
         divForm.setAttribute("style", "box-shadow: 0 0 5px 0 red, 0 2px 2px 0 rgba(0, 0, 0, 0.24);")
 
         emailValido2 = false

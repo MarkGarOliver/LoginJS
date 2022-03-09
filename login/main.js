@@ -26,11 +26,12 @@ const getBanco = () => JSON.parse(localStorage.getItem('db_users')) ?? []
 //funções
 const usuarioErrado = () => {
     if(usuario.value.length <= 4){
-        usuario.setAttribute("style", "border-bottom: solid red 1px;")
-        divForm.setAttribute("style", "box-shadow: 0 0 5px 0 red, 0 2px 2px 0 rgba(0, 0, 0, 0.24);")
+        usuario.setAttribute("style", "border-bottom: solid red 2px;")
+        divForm.setAttribute("style", "border: solid red 1px;")
+
         uservalido = false
     } else{
-        usuario.setAttribute("style", "border-bottom: solid green 1px;")
+        usuario.setAttribute("style", "border-bottom: solid #00d9ff 2px;")
         divForm.setAttribute("style", "box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);")
         uservalido = true
     }
@@ -39,11 +40,11 @@ const usuarioErrado = () => {
 const senhaErrada = () =>{
     if(senha.value.length < 8){
         
-        senha.setAttribute("style", "border-bottom: solid red 1px;")
+        senha.setAttribute("style", "border-bottom: solid red 2px;")
         divForm.setAttribute("style", "box-shadow: 0 0 5px 0 red, 0 2px 2px 0 rgba(0, 0, 0, 0.24);")
         senhavalida = false
     } else{
-        senha.setAttribute("style", "border-bottom: solid green 1px;")
+        senha.setAttribute("style", "border-bottom: solid #00d9ff 2px;")
         divForm.setAttribute("style", "box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);")
         senhavalida = true
     }
